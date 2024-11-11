@@ -5,4 +5,4 @@ dist/
 .venv/
 .coverage
 .pytest_cache/
-.history
+.history/
