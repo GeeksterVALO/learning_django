@@ -2,16 +2,36 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+# Словарь пользователей
+users = [
+    {'id': 1, 'name': 'mike'},
+    {'id': 2, 'name': 'mishel'},
+    {'id': 3, 'name': 'adel'},
+    {'id': 4, 'name': 'keks'},
+    {'id': 5, 'name': 'kamila'}
+]
+
 @app.route('/')
 def hello_world():
     return 'Welcome to Flask!'
 
-@app.get('/users')
-def users_get():
-    return 'GET /users'
+@app.get('/users/')
+def get_users():
+    query = request.args.get('query')
+    if query:
+        filtered_users = [user for user in users if query.lower() in user['name'].lower()]
+    else:
+        filtered_users = users
+        query = ''
 
-@app.post('/users')
-def users():
+    return render_template(
+        'users/index.html',
+        users=filtered_users,
+        search=query,
+    )
+
+@app.post('/users/')
+def post_user():
     return 'Users', 302
 
 @app.route('/courses/')
@@ -42,26 +62,16 @@ def courses(id):
         "description": "Описание курса"
     }
     return render_template(
-        'courses/show.html',
+        'courses/view.html',
         course=course,
     )
 
 @app.route('/users/<id>')
 def show_user(id):
-    user = {
-        "id": id,
-        "name": f"user-{id}"
-    }
+    user = next((user for user in users if user['id'] == int(id)), None)
+    if user is None:
+        return 'User not found', 404
     return render_template(
         'users/show.html',
         user=user,
     )
-
-# Словарь пользователей
-users = [
-    {'id': 1, 'name': 'mike'},
-    {'id': 2, 'name': 'mishel'},
-    {'id': 3, 'name': 'adel'},
-    {'id': 4, 'name': 'keks'},
-    {'id': 5, 'name': 'kamila'}
-]
