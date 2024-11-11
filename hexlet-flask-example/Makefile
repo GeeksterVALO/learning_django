@@ -12,4 +12,4 @@ test:
 check: test lint
 
 run:
-	poetry run flask --app example --debug run --port 8000
+	poetry run flask --app main --debug run --port 8000

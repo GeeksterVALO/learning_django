@@ -4,8 +4,8 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def welcome():
-    return 'Hello, cherti!'
+def hello_world():
+    return 'Welcome to Flask!'
 
 
 @app.get('/users')
