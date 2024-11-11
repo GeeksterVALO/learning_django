@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Создание пользователя</title>
+  </head>
+  <body>
+    <h1>Создание пользователя</h1>
+
+    <form action="/users" method="post">
+      <div>
+        <label>
+          Имя
+          <input type="text" name="name" value="{{ user.get('name', '') }}">
+        </label>
+        {% if errors.get('name') %}
+          <div>{{ errors['name'] }}</div>
+        {% endif %}
+      </div>
+      <div>
+        <label>
+          Email
+          <input type="email" required name="email" value="{{ user.get('email', '') }}">
+        </label>
+        {% if errors.get('email') %}
+          <div>{{ errors['email'] }}</div>
+        {% endif %}
+      </div>
+      <input type="submit" value="Sign Up">
+    </form>
+  </body>
+</html>
