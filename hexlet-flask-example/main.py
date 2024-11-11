@@ -1,28 +1,27 @@
 from flask import Flask, render_template, request, redirect
 import json
-import os
 
 app = Flask(__name__)
 app.secret_key = 'some_secret_key'
-base_dir = os.path.abspath(os.path.dirname(__file__))
-users_file = os.path.join(base_dir, 'users', 'users_list.json')
+users_file = 'users_list.json'  # Обновленный путь к файлу в корневом каталоге проекта
 
 # Загрузка пользователей из файла
 def load_users():
-    print(f'Checking if file {users_file} exists.')
-    if os.path.exists(users_file):
+    try:
         with open(users_file, 'r') as file:
-            users = json.load(file)
-            print(f'Loaded users: {users}')  # Отладочное сообщение
-            return users
-    print(f'File {users_file} does not exist or is empty.')
-    return []
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f'Error loading users: {e}')
+        return []
 
 # Сохранение пользователей в файл
 def save_users(users):
-    with open(users_file, 'w') as file:
-        json.dump(users, file)
-    print(f'Saved users: {users}')  # Отладочное сообщение
+    try:
+        with open(users_file, 'w') as file:
+            json.dump(users, file, indent=4)
+        print(f'Saved users: {users}')
+    except Exception as e:
+        print(f'Error saving users: {e}')
 
 @app.route('/')
 def hello_world():
@@ -38,15 +37,13 @@ def get_users():
         filtered_users = users
         query = ''
 
-    print(f'Displaying users: {filtered_users}')  # Отладочное сообщение
-
     return render_template(
         'users/index.html',
         users=filtered_users,
         search=query,
     )
 
-@app.post('/users/')
+@app.post('/users')
 def users_post():
     user = request.form.to_dict()
     errors = validate(user)

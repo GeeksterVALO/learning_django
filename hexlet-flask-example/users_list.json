@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "mike",
+        "email": "mike@example.com"
+    },
+    {
+        "id": 2,
+        "name": "mishel",
+        "email": "mishel@example.com"
+    },
+    {
+        "id": 3,
+        "name": "adel",
+        "email": "adel@example.com"
+    },
+    {
+        "id": 4,
+        "name": "keks",
+        "email": "keks@example.com"
+    },
+    {
+        "id": 5,
+        "name": "kamila",
+        "email": "kamila@example.com"
+    },
+    {
+        "name": "\u0422\u0435\u0441\u0442",
+        "email": "test@test.ru",
+        "id": 6
+    },
+    {
+        "name": "\u0422\u0435\u0441\u0442 2",
+        "email": "test2@test.ru",
+        "id": 7
+    }
+]
