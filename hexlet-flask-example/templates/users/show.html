@@ -1,3 +1,15 @@
-<div>id = {{ user.id }}</div>
-<div>nickname = {{ user.name }}</div>
-<div>email = {{ user.email }}</div>
+<!doctype html>
+<html>
+  <head>
+    <title>Пользователь</title>
+  </head>
+  <body>
+    <div>id = {{ user.id }}</div>
+    <div>nickname = {{ user.name }}</div>
+    <div>email = {{ user.email }}</div>
+    
+    <form action="/users" method="get">
+      <button type="submit">Вернуться к списку пользователей</button>
+    </form>
+  </body>
+</html>
