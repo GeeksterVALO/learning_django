@@ -2,11 +2,41 @@
 <html>
   <head>
     <title>Пользователь</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      div {
+        margin-bottom: 10px;
+      }
+      .user-info {
+        margin: 20px 0;
+      }
+      button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
   </head>
   <body>
-    <div>id = {{ user.id }}</div>
-    <div>nickname = {{ user.name }}</div>
-    <div>email = {{ user.email }}</div>
+    <h1>Информация о пользователе</h1>
+    <div class="user-info">
+      <div><strong>ID:</strong> {{ user.id }}</div>
+      <div><strong>Nickname:</strong> {{ user.name }}</div>
+      <div><strong>Email:</strong> {{ user.email }}</div>
+    </div>
     
     <form action="{{ url_for('get_users') }}" method="get">
       <button type="submit">Вернуться к списку пользователей</button>

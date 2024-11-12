@@ -1,9 +1,20 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages
 import json
 
 app = Flask(__name__)
 app.secret_key = 'some_secret_key'
 users_file = 'users_list.json'  # Обновленный путь к файлу в корневом каталоге проекта
+
+@app.post('/foo')
+def foo_post():
+    flash('This is a message', 'success')
+    return redirect('/bar')
+
+@app.get('/bar')
+def bar_index():
+    messages = get_flashed_messages(with_categories=True)
+    print(messages)  # => [('success', 'This is a message')]
+    return render_template('bar.html', messages=messages)
 
 # Загрузка пользователей из файла
 def load_users():
@@ -58,6 +69,7 @@ def users_post():
     user['id'] = user_id
     users.append(user)
     save_users(users)
+    flash('Пользователь успешно создан', 'success')
     return redirect(url_for('get_users'), code=302)
 
 @app.route('/users/new', endpoint='users_new')

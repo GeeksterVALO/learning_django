@@ -2,6 +2,56 @@
 <html>
   <head>
     <title>Создание пользователя</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f9f9f9;
+      }
+      h1 {
+        color: #333;
+      }
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        margin: auto;
+      }
+      div {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      input[type="text"],
+      input[type="email"] {
+        width: calc(100% - 12px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .error {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+      }
+      input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+    </style>
   </head>
   <body>
     <h1>Создание пользователя</h1>
@@ -13,7 +63,7 @@
           <input type="text" name="name" value="{{ user.get('name', '') }}">
         </label>
         {% if errors.get('name') %}
-          <div>{{ errors['name'] }}</div>
+          <div class="error">{{ errors['name'] }}</div>
         {% endif %}
       </div>
       <div>
@@ -22,7 +72,7 @@
           <input type="email" required name="email" value="{{ user.get('email', '') }}">
         </label>
         {% if errors.get('email') %}
-          <div>{{ errors['email'] }}</div>
+          <div class="error">{{ errors['email'] }}</div>
         {% endif %}
       </div>
       <input type="submit" value="Sign Up">
