@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import json
 
 app = Flask(__name__)
@@ -23,11 +23,11 @@ def save_users(users):
     except Exception as e:
         print(f'Error saving users: {e}')
 
-@app.route('/')
+@app.route('/', endpoint='hello_world')
 def hello_world():
     return 'Welcome to Flask!'
 
-@app.get('/users/')
+@app.get('/users/', endpoint='get_users')
 def get_users():
     query = request.args.get('query')
     users = load_users()
@@ -43,7 +43,7 @@ def get_users():
         search=query,
     )
 
-@app.post('/users')
+@app.post('/users', endpoint='users_post')
 def users_post():
     user = request.form.to_dict()
     errors = validate(user)
@@ -58,15 +58,15 @@ def users_post():
     user['id'] = user_id
     users.append(user)
     save_users(users)
-    return redirect('/users', code=302)
+    return redirect(url_for('get_users'), code=302)
 
-@app.route('/users/new')
+@app.route('/users/new', endpoint='users_new')
 def users_new():
     user = {'name': '', 'email': '', 'password': '', 'passwordConfirmation': '', 'city': ''}
     errors = {}
     return render_template('users/new.html', user=user, errors=errors)
 
-@app.route('/courses/')
+@app.route('/courses/', endpoint='courses_list')
 def courses_list():
     query = request.args.get('query')
     courses = [
@@ -82,7 +82,7 @@ def courses_list():
 
     return render_template('courses/index.html', courses=filtered_courses, search=query)
 
-@app.route('/courses/<id>')
+@app.route('/courses/<id>', endpoint='courses')
 def courses(id):
     course = {
         "id": id,
@@ -91,7 +91,7 @@ def courses(id):
     }
     return render_template('courses/view.html', course=course)
 
-@app.route('/users/<id>')
+@app.route('/users/<id>', endpoint='show_user')
 def show_user(id):
     users = load_users()
     user = next((user for user in users if user['id'] == int(id)), None)
