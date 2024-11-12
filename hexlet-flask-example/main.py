@@ -78,6 +78,41 @@ def users_new():
     errors = {}
     return render_template('users/new.html', user=user, errors=errors)
 
+@app.route('/users/edit/<id>', methods=['GET', 'POST'], endpoint='edit_user')
+def edit_user(id):
+    users = load_users()
+    user = next((user for user in users if user['id'] == int(id)), None)
+    if user is None:
+        return 'User not found', 404
+    
+    if request.method == 'POST':
+        updated_user = request.form.to_dict()
+        errors = validate(updated_user)
+        if errors:
+            return render_template(
+                'users/edit.html',
+                user=updated_user,
+                errors=errors,
+            )
+        user.update(updated_user)
+        save_users(users)
+        flash('Пользователь успешно обновлен', 'success')
+        return redirect(url_for('show_user', id=id), code=302)
+    
+    return render_template('users/edit.html', user=user, errors={})
+
+@app.route('/users/delete/<id>', methods=['POST'], endpoint='delete_user')
+def delete_user(id):
+    users = load_users()
+    user = next((user for user in users if user['id'] == int(id)), None)
+    if user is None:
+        return 'User not found', 404
+    
+    users.remove(user)
+    save_users(users)
+    flash('Пользователь успешно удален', 'success')
+    return redirect(url_for('get_users'), code=302)
+
 @app.route('/courses/', endpoint='courses_list')
 def courses_list():
     query = request.args.get('query')
