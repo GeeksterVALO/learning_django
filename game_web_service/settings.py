@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'game_web_service',
+    'game_web_service.article',
 ]
 
 MIDDLEWARE = [
