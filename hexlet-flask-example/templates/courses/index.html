@@ -1,0 +1,23 @@
+{% extends "courses/layout.html" %}
+
+{% block title %}Курсы{% endblock %}
+
+{% block content %}
+<form action="/courses" method="get">
+  <input type="search" name="query" value="{{ search }}" />
+  <input type="submit" value="Search" />
+</form>
+
+<table>
+     {% for course in courses %}
+     <tr>
+       <td>
+           {{ course.id }}
+       </td>
+       <td>
+           {{ course.name }}
+       </td>
+     </tr>
+     {% endfor %}
+ </table>
+{% endblock %}
