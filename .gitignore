@@ -1,0 +1,11 @@
+*.egg-info
+__pycache__
+dist/
+*.pyc
+.venv/
+.venv/Scripts
+.python.exe
+.venv/Scripts/python.exe
+.coverage
+.pytest_cache/
+.history/
