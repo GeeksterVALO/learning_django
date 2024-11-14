@@ -1,10 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views import View
 
-
-def index(request):
-    context = {
-        'title': 'Articles',
-        'message': 'Welcome to the articles page',
-    }
-    return render(request, 'article/index.html', context=context)
+class ArticleIndexView(View):
+    def get(self, request, *args, **kwargs):
+        context = {'articles': articles}
+        return render(request, 'article/index.html', context)
