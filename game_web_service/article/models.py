@@ -6,3 +6,5 @@ class Article(models.Model):
     body = models.TextField() # тело статьи
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+print(article.id, article.name, article.body, article.created_at, article.updated_at)
