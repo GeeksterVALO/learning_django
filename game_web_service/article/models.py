@@ -7,4 +7,5 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-print(article.id, article.name, article.body, article.created_at, article.updated_at)
+    def __str__(self):
+        return self.name
