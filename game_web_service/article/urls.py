@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import ArticleIndexView
+#from .views import ArticleIndexView
+from game_web_service.article.views import IndexView
 
 urlpatterns = [
-    path('', ArticleIndexView.as_view(), name='article_index'),
+    path('', IndexView.as_view()),
 ]
