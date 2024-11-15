@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.views import View
 from game_web_service.article.models import Article
+from game_web_service.article.forms import ArticleForm
 
 class ArticleView(View):
     def get(self, request, *args, **kwargs):
@@ -11,6 +12,18 @@ class ArticleView(View):
             'article': article,
         })
 
+class ArticleCreateView(View):
+    def get(self, request, *args, **kwargs):
+        form = ArticleForm()
+        return render(request, 'articles/create.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('article_index')
+        return render(request, 'articles/create.html', {'form': form})
+
 class ArticleCommentsView(View):
     def get(self, request, *args, **kwargs):
         comment = get_object_or_404(Comment, id=kwargs['id'], article__id=kwargs['article_id'])
@@ -18,7 +31,8 @@ class ArticleCommentsView(View):
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
-        return redirect(reverse('article', kwargs={'tags': 'python', 'article_id': 42}))
+        articles = Article.objects.all()
+        return render(request, 'articles/index.html', context={'articles': articles})
 
 def about(request):
     return render(request, 'about.html')
