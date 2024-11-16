@@ -1,0 +1,34 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Profile</h2>
+    <div class="profile-info">
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="{{ user.nickname }}" class="profile-avatar">
+        {% endif %}
+        <p><strong>Nickname:</strong> {{ user.nickname }}</p>
+        <p><strong>Full Name:</strong> {{ user.full_name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Bio:</strong> {{ user.bio }}</p>
+    </div>
+
+    <div class="favorite-games">
+        <h3>Favorite Games</h3>
+        <ul>
+            {% for game in user.favorite_games.all %}
+                <li>
+                    {% if game.cover_image %}
+                        <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" class="game-icon">
+                    {% endif %}
+                    <a href="{% url 'game_detail' game.id %}">{{ game.title }}</a>
+                </li>
+            {% empty %}
+                <li>No favorite games added.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

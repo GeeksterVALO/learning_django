@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Games{% endblock %}
+
+{% block content %}
+<div class="games-list-container">
+    <h2>Games</h2>
+    <ul>
+        {% for game in games %}
+            <li>
+                {% if game.cover_image %}
+                    <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" class="game-cover-image">
+                {% endif %}
+                <a href="{% url 'game_detail' game.id %}">{{ game.title }}</a>
+                <p>Rating: {{ game.rating }}</p>
+            </li>
+        {% empty %}
+            <li>No games available.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

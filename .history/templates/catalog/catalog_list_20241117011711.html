@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Catalog{% endblock %}
+
+{% block content %}
+<h2>Catalog</h2>
+<ul>
+    {% for item in catalog_items %}
+        <li><a href="{% url 'catalog_detail' item.id %}">{{ item.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

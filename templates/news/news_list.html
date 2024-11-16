@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block title %}News{% endblock %}
+
+{% block content %}
+<h2>News</h2>
+<ul>
+    {% for item in news %}
+        <li>
+            <h3>{{ item.title }}</h3>
+            {% if item.cover_image %}
+                <img src="{{ item.cover_image.url }}" alt="{{ item.title }}" class="cover-image">
+            {% endif %}
+            <p>{{ item.content|truncatewords:30 }}</p>
+            <p><strong>Tags:</strong> 
+                {% for tag in item.tags.all %}
+                    <a href="{% url 'news_by_tag' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

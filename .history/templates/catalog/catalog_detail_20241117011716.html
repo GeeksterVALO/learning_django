@@ -1,0 +1,8 @@
+{% extends "base_generic.html" %}
+
+{% block title %}{{ catalog_item.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ catalog_item.title }}</h2>
+<p>{{ catalog_item.description }}</p>
+{% endblock %}

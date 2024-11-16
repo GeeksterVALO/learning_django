@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>Welcome to Game Web Service</h2>
+<p>This is the home page of your game web service.</p>
+
+<h3>Latest News</h3>
+<ul>
+    {% for news_item in latest_news %}
+        <li>
+            <h4>{{ news_item.title }}</h4>
+            <p>{{ news_item.content|truncatewords:30 }}</p>
+            <a href="{% url 'news_detail' news_item.id %}">Read more</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h3>Top Rated Games</h3>
+<ul>
+    {% for game in top_rated_games %}
+        <li>
+            <h4>{{ game.title }}</h4>
+            <p>Rating: {{ game.rating }}</p>
+            <a href="{% url 'game_detail' game.id %}">View details</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

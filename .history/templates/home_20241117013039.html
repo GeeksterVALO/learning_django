@@ -1,0 +1,42 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <div class="news-section">
+        <h3>Latest News</h3>
+        <ul>
+            {% for news_item in latest_news %}
+                <li>
+                    <h4>{{ news_item.title }}</h4>
+                    {% if news_item.cover_image %}
+                        <img src="{{ news_item.cover_image.url }}" alt="{{ news_item.title }}" class="news-cover-image">
+                    {% endif %}
+                    <p>{{ news_item.content|truncatewords:30 }}</p>
+                    <a href="{% url 'news_detail' news_item.id %}">Read more</a>
+                    <hr>
+                </li>
+            {% empty %}
+                <li>No news available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="games-section">
+        <h3>Top Rated Games</h3>
+        <ul>
+            {% for game in top_rated_games %}
+                <li>
+                    {% if game.cover_image %}
+                        <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" class="game-icon">
+                    {% endif %}
+                    <a href="{% url 'game_detail' game.id %}">{{ game.title }}</a>
+                </li>
+            {% empty %}
+                <li>No top rated games available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base_generic.html" %}
+
+{% block title %}{{ game.title }}{% endblock %}
+
+{% block content %}
+<div class="game-detail-container">
+    <h2>{{ game.title }}</h2>
+    {% if game.cover_image %}
+        <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" class="game-cover-image">
+    {% endif %}
+    <p>{{ game.description }}</p>
+    <p>Rating: {{ game.rating }}</p>
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'add_to_favorites' %}">
+            {% csrf_token %}
+            <input type="hidden" name="game_id" value="{{ game.id }}">
+            <button type="submit">Add to Favorites</button>
+        </form>
+
+        <h3>Add a Review</h3>
+        <form method="post" action="{% url 'add_review' game.id %}">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <button type="submit">Submit Review</button>
+        </form>
+    {% endif %}
+
+    <h3>Reviews</h3>
+    <ul>
+        {% for review in game.review_set.all %}
+            <li>
+                <strong>{{ review.user.nickname }}</strong>: {{ review.rating }}<br>
+                {{ review.comment }}
+            </li>
+        {% empty %}
+            <li>No reviews available.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
