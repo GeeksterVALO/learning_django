@@ -1,33 +1,38 @@
 {% extends "base_generic.html" %}
-
 {% block title %}Games{% endblock %}
-
 {% block content %}
-<div class="games-list-container">
-    <h2>Games</h2>
-    <ul>
+<div class="games-container">
+    <div class="sidebar">
+        <h3>Categories</h3>
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <a href="?category={{ category.id }}" class="{% if category.id|stringformat:"s" == selected_category %}active{% endif %}">
+                        {{ category.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="games-list">
         {% for game in games %}
-            <li>
-                {% if game.cover_image %}
-                    <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" class="game-cover-image">
+            <div class="game-item" onclick="location.href='{% url 'game_detail' game.id %}'">
+                {% if game.logo %}
+                    <img src="{{ game.logo.url }}" alt="{{ game.title }}" class="game-logo">
                 {% endif %}
-                <a href="{% url 'game_detail' game.id %}">{{ game.title }}</a>
-                <p>Rating: {{ game.rating }}</p>
-                {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'add_to_favorites' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="game_id" value="{{ game.id }}">
-                        {% if game in user.favorite_games.all %}
-                            <button type="submit" class="btn btn-favorite">В избранном</button>
-                        {% else %}
-                            <button type="submit" class="btn btn-favorite">Добавить в избранное</button>
-                        {% endif %}
-                    </form>
-                {% endif %}
-            </li>
+                <div class="game-info">
+                    <h4>{{ game.title }}</h4>
+                    <p>Rating: {{ game.rating }}</p>
+                    <div class="game-categories">
+                        {% for category in game.categories.all %}
+                            <span class="game-category">{{ category.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         {% empty %}
-            <li>No games available.</li>
+            <p>No games available.</p>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}

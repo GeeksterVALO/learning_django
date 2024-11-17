@@ -4,7 +4,16 @@ from .forms import ReviewForm
 
 def game_list(request):
     games = Game.objects.all()
-    return render(request, 'games/game_list.html', {'games': games})
+    categories = Category.objects.all()
+    selected_category = request.GET.get('category')
+    if selected_category:
+        games = games.filter(categories__id=selected_category)
+    context = {
+        'games': games,
+        'categories': categories,
+        'selected_category': selected_category,
+    }
+    return render(request, 'games/game_list.html', context)
 
 def game_detail(request, id):
     game = get_object_or_404(Game, id=id)
