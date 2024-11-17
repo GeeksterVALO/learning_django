@@ -1,0 +1,27 @@
+/* Game List Page */
+.games-list-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.games-list-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.games-list-container li {
+    margin-bottom: 20px;
+}
+
+.games-list-container h2 {
+    margin-bottom: 20px;
+}
+
+.game-cover-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}

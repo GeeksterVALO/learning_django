@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserLoginForm, UserRegistrationForm, FavoriteGameForm
+from .forms import UserRegistrationForm, UserLoginForm, FavoriteGameForm
 from .models import User
 from games.models import Game
 
@@ -28,7 +28,11 @@ def add_to_favorites(request):
         if form.is_valid():
             game_id = form.cleaned_data['game_id']
             game = get_object_or_404(Game, id=game_id)
-            request.user.favorite_games.add(game)
-            messages.success(request, f'{game.title} добавлена в избранное.')
+            if game in request.user.favorite_games.all():
+                request.user.favorite_games.remove(game)
+                messages.success(request, f'{game.title} удалена из избранного.')
+            else:
+                request.user.favorite_games.add(game)
+                messages.success(request, f'{game.title} добавлена в избранное.')
             return redirect('game_detail', id=game.id)
     return redirect('game_list')

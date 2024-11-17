@@ -8,33 +8,54 @@
     {% if game.cover_image %}
         <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" class="game-cover-image">
     {% endif %}
-    <p>{{ game.description }}</p>
-    <p>Rating: {{ game.rating }}</p>
+    <div class="game-info">
+        <p>{{ game.description }}</p>
+        <p><strong>Rating:</strong> {{ game.rating }}</p>
+    </div>
+    <hr class="section-divider">
     {% if user.is_authenticated %}
-        <form method="post" action="{% url 'add_to_favorites' %}">
-            {% csrf_token %}
-            <input type="hidden" name="game_id" value="{{ game.id }}">
-            <button type="submit">Add to Favorites</button>
-        </form>
-
-        <h3>Add a Review</h3>
-        <form method="post" action="{% url 'add_review' game.id %}">
-            {% csrf_token %}
-            {{ review_form.as_p }}
-            <button type="submit">Submit Review</button>
-        </form>
+        <div class="favorite-review-section">
+            <form method="post" action="{% url 'add_to_favorites' %}" class="favorite-form">
+                {% csrf_token %}
+                <input type="hidden" name="game_id" value="{{ game.id }}">
+                {% if game in user.favorite_games.all %}
+                    <button type="submit" class="btn btn-favorite">В избранном</button>
+                {% else %}
+                    <button type="submit" class="btn btn-favorite">Добавить в избранное</button>
+                {% endif %}
+            </form>
+            <hr class="section-divider">
+            <div class="review-form-section">
+                <h3>Add a Review</h3>
+                <form method="post" action="{% url 'add_review' game.id %}" class="review-form">
+                    {% csrf_token %}
+                    <div class="star-rating">
+                        <input type="hidden" name="rating" id="rating" value="0">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    {{ review_form.comment }}
+                    <button type="submit" class="btn btn-submit-review">Submit Review</button>
+                </form>
+            </div>
+        </div>
     {% endif %}
-
-    <h3>Reviews</h3>
-    <ul>
-        {% for review in game.review_set.all %}
-            <li>
-                <strong>{{ review.user.nickname }}</strong>: {{ review.rating }}<br>
-                {{ review.comment }}
-            </li>
-        {% empty %}
-            <li>No reviews available.</li>
-        {% endfor %}
-    </ul>
+    <hr class="section-divider">
+    <div class="reviews-section">
+        <h3>Reviews</h3>
+        <ul>
+            {% for review in game.review_set.all %}
+                <li class="review-item">
+                    <p><strong>{{ review.user.nickname }}</strong> rated {{ review.rating }} stars</p>
+                    <p>{{ review.comment }}</p>
+                </li>
+            {% empty %}
+                <li>No reviews yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endblock %}

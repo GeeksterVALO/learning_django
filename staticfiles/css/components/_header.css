@@ -1,0 +1,74 @@
+/* Header */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header .left a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header .center form {
+    display: flex;
+    align-items: center;
+}
+
+header .center input[type="text"] {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+header .center button {
+    padding: 5px 10px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+header .center a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+header .right a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+header .right .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+header .right .btn-logout {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 20px;
+}
+
+header .right .btn-logout:hover {
+    text-decoration: underline;
+}

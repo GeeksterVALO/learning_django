@@ -13,6 +13,17 @@
                 {% endif %}
                 <a href="{% url 'game_detail' game.id %}">{{ game.title }}</a>
                 <p>Rating: {{ game.rating }}</p>
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'add_to_favorites' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="game_id" value="{{ game.id }}">
+                        {% if game in user.favorite_games.all %}
+                            <button type="submit" class="btn btn-favorite">В избранном</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-favorite">Добавить в избранное</button>
+                        {% endif %}
+                    </form>
+                {% endif %}
             </li>
         {% empty %}
             <li>No games available.</li>
