@@ -47,4 +47,4 @@ def add_to_favorites(request):
                 request.user.favorite_games.add(game)
                 messages.success(request, f'{game.title} добавлена в избранное.')
             return redirect('game_detail', id=game.id)
-    return redirect('game_list')
+    return redirect('catalog_list')

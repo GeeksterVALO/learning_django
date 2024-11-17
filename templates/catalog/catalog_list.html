@@ -1,12 +1,47 @@
 {% extends "base_generic.html" %}
-
 {% block title %}Catalog{% endblock %}
-
 {% block content %}
-<h2>Catalog</h2>
-<ul>
-    {% for item in catalog_items %}
-        <li><a href="{% url 'catalog_detail' item.id %}">{{ item.title }}</a></li>
-    {% endfor %}
-</ul>
+<div class="catalog-container">
+    <div class="sidebar">
+        <h3>Categories</h3>
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <a href="?category={{ category.id }}" class="{% if category.id|stringformat:"s" == selected_category %}active{% endif %}">
+                        {{ category.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="catalog-list">
+        {% for game in games %}
+            <div class="catalog-item" data-url="{% url 'catalog_detail' game.id %}">
+                {% if game.logo %}
+                    <img src="{{ game.logo.url }}" alt="{{ game.title }}" class="catalog-logo">
+                {% endif %}
+                <div class="catalog-info">
+                    <h4>{{ game.title }}</h4>
+                    <p>Rating: {{ game.rating }}</p>
+                    <div class="catalog-categories">
+                        {% for category in game.categories.all %}
+                            <span class="catalog-category">{{ category.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No items available.</p>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.catalog-item').forEach(function(item) {
+            item.addEventListener('click', function() {
+                location.href = item.getAttribute('data-url');
+            });
+        });
+    });
+</script>
 {% endblock %}

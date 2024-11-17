@@ -12,6 +12,7 @@ class Category(models.Model):
 class Game(models.Model):
     title = models.CharField(_('title'), max_length=255)
     description = models.TextField(_('description'), blank=True)
+    logo = models.ImageField(_('logo'), upload_to='game_logos/', blank=True, null=True)
     download_link = models.URLField(_('download link'), blank=True)
     purchase_link = models.URLField(_('purchase link'), blank=True)
     rating = models.FloatField(_('rating'), default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
