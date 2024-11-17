@@ -1,7 +1,5 @@
 {% extends "base_generic.html" %}
-
 {% block title %}Profile{% endblock %}
-
 {% block content %}
 <div class="profile-container">
     <h2>Profile</h2>
@@ -10,19 +8,16 @@
             <img src="{{ user.avatar.url }}" alt="{{ user.nickname }}" class="profile-avatar">
         {% endif %}
         <p><strong>Nickname:</strong> {{ user.nickname }}</p>
-        <p><strong>Full Name:</strong> {{ user.full_name }}</p>
         <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Full Name:</strong> {{ user.full_name }}</p>
         <p><strong>Bio:</strong> {{ user.bio }}</p>
+        <a href="{% url 'edit_profile' %}" class="btn btn-edit-profile">Edit Profile</a>
     </div>
-
     <div class="favorite-games">
         <h3>Favorite Games</h3>
         <ul>
             {% for game in user.favorite_games.all %}
                 <li>
-                    {% if game.cover_image %}
-                        <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" class="game-icon">
-                    {% endif %}
                     <a href="{% url 'game_detail' game.id %}">{{ game.title }}</a>
                 </li>
             {% empty %}

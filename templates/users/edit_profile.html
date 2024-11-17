@@ -1,0 +1,40 @@
+{% extends "base_generic.html" %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+<div class="edit-profile-container">
+    <h2>Edit Profile</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group{% if form.nickname.errors %} has-error{% endif %}">
+            {{ form.nickname.label_tag }}
+            {{ form.nickname }}
+            {% for error in form.nickname.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group{% if form.email.errors %} has-error{% endif %}">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% for error in form.email.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group{% if form.full_name.errors %} has-error{% endif %}">
+            {{ form.full_name.label_tag }}
+            {{ form.full_name }}
+            {% for error in form.full_name.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group{% if form.bio.errors %} has-error{% endif %}">
+            {{ form.bio.label_tag }}
+            {{ form.bio }}
+            {% for error in form.bio.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-save">Save Changes</button>
+        <a href="{% url 'profile' %}" class="btn btn-cancel">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -34,5 +34,25 @@ class UserLoginForm(AuthenticationForm):
 
         return super().clean()
 
+class UserEditForm(forms.ModelForm):
+    full_name = forms.CharField(required=False)
+    bio = forms.CharField(widget=forms.Textarea, required=False)
+
+    class Meta:
+        model = User
+        fields = ['nickname', 'email', 'full_name', 'bio']
+
+    def clean_nickname(self):
+        nickname = self.cleaned_data.get('nickname')
+        if User.objects.filter(nickname=nickname).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError("This nickname is already taken.")
+        return nickname
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError("This email is already taken.")
+        return email
+
 class FavoriteGameForm(forms.Form):
     game_id = forms.IntegerField(widget=forms.HiddenInput())
