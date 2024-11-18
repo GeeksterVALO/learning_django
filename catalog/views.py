@@ -1,32 +1,32 @@
 from django.shortcuts import render, get_object_or_404
-from .models import CatalogItem, Category
+from games.models import Game, Category
 from rest_framework import generics
-from .serializers import CatalogItemSerializer, CategorySerializer
+from games.serializers import GameSerializer, CategorySerializer
 
 def catalog_list(request):
-    catalog_items = CatalogItem.objects.all()
+    games = Game.objects.all()
     categories = Category.objects.all()
     selected_category = request.GET.get('category')
     if selected_category:
-        catalog_items = catalog_items.filter(categories__id=selected_category)
+        games = games.filter(categories__id=selected_category)
     context = {
-        'catalog_items': catalog_items,
+        'games': games,
         'categories': categories,
         'selected_category': selected_category,
     }
     return render(request, 'catalog/catalog_list.html', context)
 
 def catalog_detail(request, id):
-    catalog_item = get_object_or_404(CatalogItem, id=id)
-    return render(request, 'catalog/catalog_detail.html', {'catalog_item': catalog_item})
+    game = get_object_or_404(Game, id=id)
+    return render(request, 'catalog/catalog_detail.html', {'game': game})
 
-class CatalogItemList(generics.ListCreateAPIView):
-    queryset = CatalogItem.objects.all()
-    serializer_class = CatalogItemSerializer
+class GameList(generics.ListCreateAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
 
-class CatalogItemDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = CatalogItem.objects.all()
-    serializer_class = CatalogItemSerializer
+class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
 
 class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()

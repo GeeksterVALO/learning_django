@@ -1,8 +1,21 @@
 {% extends "base_generic.html" %}
 
-{% block title %}{{ catalog_item.title }}{% endblock %}
+{% block title %}{{ game.title }}{% endblock %}
 
 {% block content %}
-<h2>{{ catalog_item.title }}</h2>
-<p>{{ catalog_item.description }}</p>
+<div class="catalog-detail-container">
+    <h2>{{ game.title }}</h2>
+    {% if game.logo %}
+        <img src="{{ game.logo.url }}" alt="{{ game.title }}" class="catalog-logo">
+    {% endif %}
+    <div class="catalog-info">
+        <p>{{ game.description }}</p>
+        <p><strong>Rating:</strong> {{ game.rating }}</p>
+        <div class="catalog-categories">
+            {% for category in game.categories.all %}
+                <span class="catalog-category">{{ category.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}
