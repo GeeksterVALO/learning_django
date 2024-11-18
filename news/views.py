@@ -1,6 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from .models import News, Tag
 from games.models import Game
+from rest_framework import generics
+from .serializers import NewsSerializer
+
+class NewsList(generics.ListCreateAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+
+class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
 
 def home(request):
     latest_news = News.objects.order_by('-created_at')[:5]

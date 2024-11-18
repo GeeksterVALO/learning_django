@@ -1,6 +1,24 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Game
+from .models import Game, Category
 from games.forms import ReviewForm
+from rest_framework import generics
+from .serializers import GameSerializer, CategorySerializer
+
+class GameList(generics.ListCreateAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 def game_detail(request, id):
     game = get_object_or_404(Game, id=id)
@@ -21,3 +39,4 @@ def add_review(request, catalog_item_id):
     else:
         form = ReviewForm()
     return render(request, 'catalog/add_review.html', {'form': form, 'catalog_item': catalog_item})
+

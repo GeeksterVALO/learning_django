@@ -5,6 +5,16 @@ from django.contrib import messages
 from .forms import UserRegistrationForm, UserEditForm, FavoriteGameForm, UserLoginForm
 from .models import User
 from games.models import Game
+from rest_framework import generics
+from .serializers import UserSerializer
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 def register(request):
     if request.method == 'POST':

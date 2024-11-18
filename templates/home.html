@@ -14,7 +14,7 @@
                         <img src="{{ news_item.cover_image.url }}" alt="{{ news_item.title }}" class="news-cover-image">
                     {% endif %}
                     <p>{{ news_item.content|truncatewords:30 }}</p>
-                    <a href="{% url 'news_detail' news_item.id %}">Read more</a>
+                    <a href="{% url 'news-detail' news_item.id %}">Read more</a>
                     <hr>
                 </li>
             {% empty %}
@@ -28,10 +28,10 @@
         <ul>
             {% for game in top_rated_games %}
                 <li>
-                    {% if game.cover_image %}
-                        <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" class="game-icon">
+                    {% if game.logo %}
+                        <img src="{{ game.logo.url }}" alt="{{ game.title }}" class="game-icon">
                     {% endif %}
-                    <a href="{% url 'game_detail' game.id %}">{{ game.title }}</a>
+                    <a href="{% url 'catalog_detail' game.id %}">{{ game.title }}</a>
                 </li>
             {% empty %}
                 <li>No top rated games available.</li>
